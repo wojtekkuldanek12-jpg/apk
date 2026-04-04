@@ -1,19 +1,113 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Moja aplikacja</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BetSim - Start</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
 </head>
+
 <body>
 
-  <div class="container">
-    <h1 id="licznik">0</h1>
-    <button onclick="klik()">Kliknij mnie</button>
-  </div>
+    <div id="app">
+        <section id="step-1" class="step active">
+            <h1>Witaj w BetSim!</h1>
+            <p>Jak mamy Cię nazywać?</p>
+            <input type="text" id="username" placeholder="Twoje imię...">
+            <button onclick="nextStep(2)">Dalej</button>
+        </section>
 
-  <script src="script.js"></script>
+        <section id="step-2" class="step">
+            <h1>Wybierz profilowe</h1>
+            <div class="avatar-picker">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="avatar" onclick="selectAvatar(this)">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka" class="avatar" onclick="selectAvatar(this)">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Max" class="avatar" onclick="selectAvatar(this)">
+            </div>
+            <button onclick="nextStep(3)">Dalej</button>
+        </section>
+
+        <section id="step-3" class="step">
+            <h1>Wybierz budżet startowy</h1>
+            <div class="budget-options">
+                <button class="budget-btn" onclick="setBudget(50)">50 zł</button>
+                <button class="budget-btn" onclick="setBudget(100)">100 zł</button>
+                <button class="budget-btn" onclick="setBudget(1000)">1000 zł</button>
+            </div>
+        </section>
+
+        <section id="main-app" class="step">
+    <header class="top-bar">
+        <span class="logo">BetSim ⚽</span>
+        <div id="profile-trigger" class="profile-small" onclick="showTab('tab-profile')">
+            </div>
+    </header>
+
+    <main class="content">
+        <div id="tab-matches" class="tab-content active">
+            <h2>Dostępne Mecze</h2>
+            <div id="matches-list">
+                <p>Ładowanie meczów...</p>
+                </div>
+        </div>
+
+      
+        <div id="tab-bets" class="tab-content">
+    <h2>Moje Kupony</h2>
+    <div id="active-bets-list"></div>
+</div>
+
+<div id="tab-history" class="tab-content">
+    <h2>Historia</h2>
+    <div id="history-list"></div>
+</div>
+
+        <div id="tab-profile" class="tab-content">
+            <h2>Panel Gracza</h2>
+            <div id="user-info-full"></div>
+            <button onclick="resetData()" class="btn-danger">Resetuj dane i Wyloguj</button>
+        </div>
+    </main>
+
+    <nav class="bottom-nav">
+        <button onclick="showTab('tab-matches')">Mecze</button>
+        <button onclick="showTab('tab-bets')">Kupony</button>
+        <button onclick="showTab('tab-history')">Historia</button>
+    </nav>
+</section>
+    </div>
+
+    <script src="script.js"></script>
+
+
+<div id="custom-modal" class="modal-overlay">
+    <div class="modal-card">
+        <h3 id="modal-title">Postaw zakład</h3>
+        <p id="modal-msg"></p>
+        <input type="number" id="modal-input" placeholder="Kwota...">
+        <div class="modal-buttons">
+            <button id="modal-cancel" class="btn-secondary">Anuluj</button>
+            <button id="modal-confirm">Postaw</button>
+        </div>
+    </div>
+</div>
+
+
+<audio id="snd-click" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
+<audio id="snd-win" src="https://www.soundjay.com/human/sounds/applause-01.mp3" preload="auto"></audio>
+<audio id="snd-lose" src="https://www.soundjay.com/misc/sounds/fail-trombone-01.mp3" preload="auto"></audio>
+
+
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(reg => console.log('SW zarejestrowany!', reg))
+      .catch(err => console.log('Błąd SW:', err));
+  });
+}
+</script>
 </body>
 </html>
