@@ -1,92 +1,270 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* --- RESET I BAZA --- */
 body {
-  font-family: Arial;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: #111;
-  color: white;
+    margin: 0;
+    padding: 0;
+    background-color: #0f0f0f; /* Głębsza czerń */
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
 }
 
-/* kontener */
-.container {
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
+#app {
+    width: 100%;
+    max-width: 450px;
+    background: #161616;
+    position: relative;
+    padding-bottom: 90px;
+    box-shadow: 0 0 40px rgba(0,0,0,0.8);
 }
 
-/* licznik */
-h1 {
-  font-size: 60px;
-  margin-bottom: 20px;
+/* --- REJESTRACJA (KROKI) --- */
+.step {
+    display: none;
+    padding: 50px 25px;
+    text-align: center;
+    animation: fadeIn 0.4s ease;
+}
+.step.active { display: block; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* przycisk */
+h1, h2 { color: #fff; letter-spacing: -0.5px; }
+
+input {
+    width: 100%;
+    padding: 15px;
+    background: #222;
+    border: 1px solid #333;
+    border-radius: 12px;
+    color: white;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+/* --- GŁÓWNY PRZYCISK (AKCJA) --- */
 button {
-  width: 100%;
-  font-size: 22px;
-  padding: 15px;
-  border: none;
-  border-radius: 15px;
-  background: #00c3ff;
-  color: white;
-  transition: 0.2s;
+    background: linear-gradient(135deg, #00c853 0%, #00a441 100%);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(0, 200, 83, 0.3);
 }
 
 button:active {
-  transform: scale(0.95);
+    transform: scale(0.96);
+    box-shadow: 0 2px 5px rgba(0, 200, 83, 0.2);
 }
 
-/* 📱 TELEFON */
-@media (max-width: 600px) {
-  h1 {
-    font-size: 45px;
-  }
-
-  button {
-    font-size: 18px;
-    padding: 12px;
-  }
+/* --- PASEK GÓRNY (FIXED) --- */
+.top-bar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    max-width: 450px;
+    height: 65px;
+    background: rgba(26, 26, 26, 0.85);
+    backdrop-filter: blur(12px); /* Efekt szkła */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgba(0, 200, 83, 0.4);
+    z-index: 1000;
 }
 
-/* 💻 DUŻY EKRAN */
-@media (min-width: 900px) {
-  h1 {
-    font-size: 80px;
-  }
+.logo { font-weight: 900; font-size: 1.2rem; color: #00c853; }
 
-  button {
-    font-size: 26px;
-  }
+.profile-small {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-size: cover;
+    border: 2px solid #00c853;
+    box-shadow: 0 0 10px rgba(0, 200, 83, 0.3);
+}
+
+/* --- KONTENER MECZÓW (NAPRAWA UCINANIA) --- */
+#main-app {
+    margin-top: 80px; /* Idealny odstęp, by widzieć Premier League */
+    padding: 15px;
+}
+
+/* --- KARTY MECZÓW --- */
+.match-card {
+    background: #1e1e1e;
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 20px;
+    border: 1px solid #2a2a2a;
+    transition: transform 0.2s ease;
+}
+
+.match-card:hover { border-color: #333; }
+
+.match-card p {
+    font-size: 1.1rem;
+    margin: 15px 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* --- PRZYCISKI KURSÓW (ULEPSZONE) --- */
+.odds-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+}
+
+.odds-buttons button {
+    background: #2a2a2a;
+    color: #fff;
+    border: 1px solid #3a3a3a;
+    padding: 12px 5px;
+    font-size: 0.8rem;
+    box-shadow: none;
+    text-transform: none;
+}
+
+.odds-buttons button:hover {
+    background: #333;
+    border-color: #00c853;
+    color: #00c853;
+}
+
+/* --- NAWIGACJA DOLNA --- */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    max-width: 450px;
+    height: 75px;
+    background: #161616;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #2a2a2a;
+    padding-bottom: 10px; /* Miejsce na gesty systemowe */
+    z-index: 1000;
+}
+
+.bottom-nav button {
+    background: none;
+    box-shadow: none;
+    color: #666;
+    font-size: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
+}
+
+.bottom-nav button:hover, .bottom-nav button:focus {
+    color: #00c853;
+}
+
+/* --- ZAKŁADKI --- */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* --- PROFILE --- */
+.avatar-picker { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
+.avatar { 
+    width: 80px; height: 80px; border-radius: 50%; 
+    border: 4px solid transparent; transition: 0.3s; 
+}
+.avatar.selected { border-color: #00c853; transform: scale(1.1); }
+
+.budget-btn { 
+    width: 100%; margin: 8px 0; padding: 18px; 
+    background: #222; border: 1px solid #333; font-size: 1rem;
 }
 
 
-body {
-  font-family: Arial;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: #f5f5f5; /* jasne tło */
-  color: black; /* czarny tekst */
+
+
+
+/* --- STYLE DLA MODALA (ZASTĘPSTWO PROMPT) --- */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    display: none; /* Domyślnie ukryte */
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.modal-card {
+    background: #222;
+    padding: 30px;
+    border-radius: 20px;
+    width: 85%;
+    max-width: 350px;
+    text-align: center;
+    border: 1px solid #00c853;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+.modal-card input {
+    margin: 20px 0;
+    text-align: center;
+    font-size: 1.2rem;
+    border-color: #444;
+}
+
+.modal-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.btn-secondary {
+    background: #333 !important;
+    box-shadow: none !important;
 }
 
 
-
-body {
-  background: white;
-  color: black;
+/* --- ANIMACJE KLIKNIĘCIA --- */
+button:active {
+    transform: scale(0.92); /* Efekt wciśnięcia */
+    filter: brightness(1.2);
 }
 
-@media (prefers-color-scheme: dark) {
-  body {
-    background: #111;
-    color: white;
-  }
+/* Animacja potrząsania (dla przegranej) */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+    75% { transform: translateX(-10px); }
+    100% { transform: translateX(0); }
+}
+
+.shake-effect {
+    animation: shake 0.4s ease-in-out;
+}
+
+/* Animacja sukcesu (pulsowanie) */
+@keyframes success-pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 rgba(0, 200, 83, 0); }
+    50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(0, 200, 83, 0.6); }
+    100% { transform: scale(1); box-shadow: 0 0 0 rgba(0, 200, 83, 0); }
+}
+
+.win-effect {
+    animation: success-pulse 0.6s ease-in-out infinite;
 }
