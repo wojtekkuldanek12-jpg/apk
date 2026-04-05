@@ -341,6 +341,7 @@ function updateSlipUI() {
 function removeFromSlip(i) { currentSlip.splice(i, 1); updateSlipUI(); }
 function toggleSlip(show) { document.getElementById('slip-overlay').style.display = show ? 'flex' : 'none'; }
 
+
 function placeBet() {
     const stake = parseFloat(document.getElementById('slip-stake').value);
     if (isNaN(stake) || stake <= 0 || stake > userData.balance) return alert("Błąd stawki!");
@@ -352,16 +353,34 @@ function placeBet() {
     updateSlipUI();
     toggleSlip(false);
 
-    // Symulacja wyników
+    // --- NOWA LOGIKA SYMULACJI (WAGI KURSÓW) ---
     let allWin = true;
     let results = finalMatches.map(m => {
-        let sH = Math.floor(Math.random() * 5);
-        let sA = Math.floor(Math.random() * 5);
-        let res = (sH > sA) ? m.h : (sA > sH ? m.a : "Remis");
-        let win = (m.pick === res);
-        if(!win) allWin = false;
+        // Obliczamy szansę na podstawie kursu (im mniejszy kurs, tym większa szansa)
+        // Szansa na wejście typu (uproszczona): 1/kurs + bonus za "pewniaka"
+        let winChance = (1 / m.odd) * 0.85; // 0.85 to marża "pewności"
+        
+        // Losujemy liczbę od 0 do 1
+        let randomRoll = Math.random();
+        let win = randomRoll < winChance;
+
+        // Generujemy bramki tak, aby pasowały do wyniku
+        let sH, sA;
+        if (win) {
+            // Jeśli typ wygrywa
+            if (m.pick === m.h) { sH = Math.floor(Math.random() * 3) + 1; sA = Math.floor(Math.random() * sH); }
+            else if (m.pick === m.a) { sA = Math.floor(Math.random() * 3) + 1; sH = Math.floor(Math.random() * sA); }
+            else { sH = sA = Math.floor(Math.random() * 2); } // Remis
+        } else {
+            // Jeśli typ przegrywa - generujemy wynik przeciwny
+            allWin = false;
+            if (m.pick === m.h) { sA = Math.floor(Math.random() * 3) + 1; sH = Math.floor(Math.random() * sA); }
+            else { sH = Math.floor(Math.random() * 3) + 1; sA = Math.floor(Math.random() * sH); }
+        }
+
         return {...m, sH, sA, isWin: win};
     });
+    // --- KONIEC NOWEJ LOGIKI ---
 
     const winAmt = allWin ? (stake * finalOdd).toFixed(2) : 0;
     if(allWin) { userData.balance += parseFloat(winAmt); playSnd('snd-win'); } else { playSnd('snd-lose'); }
@@ -374,9 +393,11 @@ function placeBet() {
 
     saveData();
     updateProfileUI();
-    updateKuponyUI(); // WAŻNE: Odśwież historię zaraz po zakładzie
+    updateKuponyUI();
     showResultNotification(allWin, winAmt, results);
 }
+
+
 
 function showResultNotification(win, amt, details) {
     const ov = document.createElement('div');
