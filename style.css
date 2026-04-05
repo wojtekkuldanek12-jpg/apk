@@ -10,6 +10,28 @@ body {
     min-height: 100vh;
 }
 
+
+/* Ukrywamy wszystkie sekcje rejestracji i główną apkę */
+.step {
+    display: none !important;
+}
+
+/* Pokazujemy tylko tę, która ma klasę active */
+.step.active {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* Jeśli to główna aplikacja, nie musi być wycentrowana */
+main#main-app.active {
+    display: block !important;
+    min-height: 100vh;
+}
+
 #app {
     width: 100%;
     max-width: 450px;
@@ -272,4 +294,602 @@ button:active {
 button, .avatar, .odds-buttons button {
     touch-action: manipulation; /* Usuwa 300ms opóźnienia kliknięcia na telefonie */
     cursor: pointer;
+}
+
+
+
+
+
+/* --- POPRAWKA SIATKI PRZYCISKÓW W MECZU --- */
+.odds-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 kolumny: 1, X, 2 i WIĘCEJ */
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.odds-buttons button {
+    padding: 8px 5px;
+    font-size: 0.85rem;
+    line-height: 1.2;
+    background: #222;
+    border: 1px solid #444;
+    color: white;
+    border-radius: 8px;
+    transition: transform 0.1s, background 0.2s;
+    touch-action: manipulation; /* Usuwa lag kliknięcia na tel */
+}
+
+.odds-buttons button small {
+    color: #00c853;
+    font-weight: bold;
+}
+
+.odds-buttons button:active {
+    transform: scale(0.95);
+    background: #333;
+}
+
+/* --- STYL DLA LOGÓW MECZOWYCH (SCROLL) --- */
+#sim-log {
+    scrollbar-width: thin;
+    scrollbar-color: #00c853 #000;
+}
+
+#sim-log::-webkit-scrollbar {
+    width: 4px;
+}
+
+#sim-log::-webkit-scrollbar-thumb {
+    background: #00c853;
+    border-radius: 10px;
+}
+
+/* --- MODAL "WIĘCEJ ZAKŁADÓW" --- */
+#more-bets-overlay {
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* --- ANIMACJE WYNIKU --- */
+.win-effect {
+    animation: bounce 0.5s infinite alternate;
+}
+
+@keyframes bounce {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+}
+
+.shake-effect {
+    animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+/* --- KARTA MECZOWA - DODATKI --- */
+.match-card {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.match-card strong {
+    color: #fff;
+}
+
+/* --- STYL DLA PRZYCISKU WIĘCEJ (TEN SZARY) --- */
+button[onclick*="openMoreBets"] {
+    background: #333 !important;
+    border-color: #555 !important;
+}
+
+button[onclick*="openMoreBets"]:hover {
+    background: #444 !important;
+}
+
+/* --- RESET I PROFIL --- */
+.reset-btn {
+    background: #ff5252;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    width: 100%;
+    margin-top: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.more-opt {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    background: #222;
+    border: 1px solid #444;
+    color: white;
+    border-radius: 8px;
+    text-align: left;
+}
+.bet-item {
+    background: #1a1a1a;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+}
+
+
+/* Ukrywamy wszystkie kroki domyślnie, pokazujemy tylko .active */
+.step {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.step.active {
+    display: flex;
+}
+
+/* Styl dla siatki awatarów przy logowaniu */
+.avatar-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.avatar.selected {
+    border-color: #00c853;
+    transform: scale(1.1);
+}
+
+/* Styl dla paska balansu i profilu w rogu */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+
+
+
+/* --- GŁÓWNE USTAWIENIA KONTENERÓW --- */
+.step {
+    display: none; /* Domyślnie ukryte */
+    width: 100%;
+    min-height: 100vh;
+}
+
+.step.active {
+    display: flex; /* Pokazuje tylko aktywny krok */
+    flex-direction: column;
+}
+
+/* --- NAGŁÓWEK (HEADER) --- */
+header {
+    display: flex !important; /* Wymuszamy flex */
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: #111;
+    border-bottom: 2px solid #222;
+    width: 100%;
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-weight: 900;
+    font-size: 1.4rem;
+    color: white;
+}
+
+.logo span {
+    color: #00c853;
+}
+
+/* --- SEKCJA PROFILU I SALDA --- */
+.user-status {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#balance-display {
+    color: #00c853;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+#profile-trigger {
+    width: 45px; /* Musi mieć stałą szerokość */
+    height: 45px; /* Musi mieć stałą wysokość */
+    border-radius: 50%;
+    background-color: #333;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid #00c853;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 200, 83, 0.2);
+}
+
+/* --- REJESTRACJA (KROKI) --- */
+.avatar-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    cursor: pointer;
+}
+
+.avatar.selected {
+    border-color: #00c853;
+}
+
+
+
+.more-opt {
+    width: 100%;
+    background: #222 !important;
+    border: 1px solid #333 !important;
+    color: #eee !important;
+    padding: 8px 10px;
+    margin-bottom: 5px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.more-opt:hover {
+    background: #333 !important;
+    border-color: #00c853 !important;
+}
+
+
+
+/* --- MOBILNA RESPONSYWNOŚĆ --- */
+
+/* Kontener główny - blokujemy przesuwanie na boki */
+body, html {
+    overflow-x: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+/* Karty meczowe na telefonie */
+.match-card {
+    width: 95%;
+    margin: 10px auto;
+    padding: 12px;
+    box-sizing: border-box;
+}
+
+/* Siatka przycisków 1X2 + Więcej */
+.odds-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 kolumny obok siebie */
+    gap: 5px; /* Mały odstęp na małe ekrany */
+}
+
+.odds-buttons button {
+    font-size: 0.75rem; /* Mniejszy tekst, by się zmieścił */
+    padding: 10px 2px;
+}
+
+/* Styl dla okna "Więcej" - przewijanie na telefonie */
+#more-modal > div {
+    width: 95% !important;
+    max-height: 85vh !important;
+    padding: 15px !important;
+}
+
+/* Dwie kolumny strzelców na tel - zmieniamy na jedną pod drugą, jeśli ekran jest b. mały */
+@media (max-width: 400px) {
+    #more-modal div[style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important; /* Na małych tel strzelcy jeden pod drugim */
+    }
+}
+
+/* Dolna nawigacja - duże przyciski pod kciuk */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 65px;
+    background: #111;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 2px solid #222;
+    z-index: 1000;
+}
+
+.bottom-nav button {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 0.7rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Logi meczowe - żeby nie uciekały */
+#sim-log {
+    font-size: 0.75rem;
+    max-height: 120px;
+}
+
+
+
+
+/* Kontener okna "Więcej" */
+.more-container {
+    background: #111;
+    border: 2px solid #00c853;
+    padding: 15px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 450px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-sizing: border-box; /* Kluczowe: wymiary nie wychodzą poza ekran */
+}
+
+.more-title {
+    color: white;
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    font-weight: 900;
+}
+
+/* Siatka 2 kolumny na dużych tel, 1 kolumna na małych */
+.more-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+@media (max-width: 380px) {
+    .more-grid {
+        grid-template-columns: 1fr; /* Jeden pod drugim na bardzo wąskich tel */
+    }
+}
+
+.team-label {
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding-bottom: 5px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #333;
+    text-transform: uppercase;
+}
+
+.host { color: #00c853; }
+.guest { color: #ff5252; }
+
+/* Przyciski opcji */
+.more-opt {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: #1a1a1a !important;
+    border: 1px solid #333 !important;
+    color: #ccc !important;
+    padding: 10px 8px !important;
+    margin-bottom: 6px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    cursor: pointer;
+}
+
+.more-opt b {
+    color: #00c853;
+    margin-left: 5px;
+}
+
+.section-sub {
+    color: #666;
+    font-size: 0.7rem;
+    margin: 15px 0 8px 0;
+}
+
+.extra-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.close-more-btn {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+
+
+
+
+.slip-item {
+    background: #222;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+}
+
+.slip-item small {
+    color: #888;
+}
+
+#floating-slip-btn {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+
+
+
+/* Centrowanie przycisków kursów w karcie meczu */
+.odds-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.match-card {
+    text-align: center; /* Centruje tekst nazw drużyn */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Styl dla zdjęcia w rogu */
+#profile-trigger {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid #00c853;
+    cursor: pointer;
+}
+
+
+
+
+:root {
+    --accent: #00ff88;
+    --bg: #0a0a0c;
+    --card: rgba(255, 255, 255, 0.05);
+    --border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    background-color: var(--bg);
+    background-image: radial-gradient(circle at top right, #1a332a, transparent);
+    color: #eee;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Wyśrodkowany i nowoczesny tytuł sekcji */
+.section-title {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 30px 0 20px;
+    color: #fff;
+    text-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+}
+
+/* Nowoczesna karta meczu */
+.match-card {
+    background: var(--card) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border) !important;
+    border-radius: 20px !important;
+    padding: 20px !important;
+    margin: 15px auto !important;
+    max-width: 95%;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease;
+}
+
+.match-card:active {
+    transform: scale(0.98);
+}
+
+/* Przyciski kursów - Neon Style */
+.odds-row button {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 12px !important;
+    padding: 12px 5px !important;
+    color: #fff !important;
+    font-weight: bold !important;
+    transition: all 0.3s ease !important;
+}
+
+.odds-row button:hover, .odds-row button:active {
+    background: var(--accent) !important;
+    color: #000 !important;
+    box-shadow: 0 0 15px var(--accent);
+    border-color: var(--accent) !important;
+}
+
+.odds-row button span {
+    display: block;
+    font-size: 1.1rem;
+    color: var(--accent);
+}
+
+.odds-row button:active span {
+    color: #000;
+}
+
+/* Logo Animacja */
+.logo {
+    font-size: 1.5rem;
+    font-weight: 900;
+    background: linear-gradient(to right, #fff, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
