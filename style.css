@@ -268,3 +268,8 @@ button:active {
 .win-effect {
     animation: success-pulse 0.6s ease-in-out infinite;
 }
+
+button, .avatar, .odds-buttons button {
+    touch-action: manipulation; /* Usuwa 300ms opóźnienia kliknięcia na telefonie */
+    cursor: pointer;
+}
